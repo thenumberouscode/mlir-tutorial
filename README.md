@@ -614,13 +614,13 @@ MLIR 数据流图的遍历往往遵循一种模式：Operation 调用函数找 V
 
 **Op的getUses和getUser**：operation 也有 getUses 和 getUsers 函数，等价于把这个 op 的所有 result 的 Uses 或 Users 拼在一起。
 
-**Value的修改**：Value 支持 **replaceAllUseWith** 修改，一种*看起来*等价的代码是：
+**Value的修改**：Value 支持 **replaceAllUsesWith** 修改，一种*看起来*等价的代码是：
 ```cpp
 for(auto & uses: value.getUses()) {
   uses.set(new_value);
 }
 ```
-但需要注意，上面的代码是**非常危险**的。因为在 uses.set 的时候，会修改 value 的 use chain，而 value 的 use-chain 正在被遍历，可能一修改就挂了。于是，最好用 mlir 提供好的 `replaceAllUseWith` 来修改。
+但需要注意，上面的代码是**非常危险**的。因为在 uses.set 的时候，会修改 value 的 use chain，而 value 的 use-chain 正在被遍历，可能一修改就挂了。于是，最好用 mlir 提供好的 `replaceAllUsesWith` 来修改。
 
 ###  5.3. <a name='mlir-控制流图的遍历与修改'></a>MLIR 控制流图的遍历与修改
 
