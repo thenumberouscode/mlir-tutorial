@@ -86,7 +86,7 @@ zhoukexing@pku.edu.cn
 * 10. [自定义 Type](#自定义-type)
 * 11. [TIPS](#tips)
   * 11.1. [如何找头文件、找想要的函数](#如何找头文件、找想要的函数)
-  * 11.2. [如何找需要连接的库](#如何找需要连接的库)
+  * 11.2. [如何找需要链接的库](#如何找需要链接的库)
   * 11.3. [如何加快编译速度](#如何加快编译速度)
   * 11.4. [去 MLIR 里抄代码](#去-mlir-里抄代码)
 * 12. [MLIR 的批判：C++ v.s. Rust](#mlir-的批判：c++-v.s.-rust)
@@ -211,7 +211,7 @@ MLIR 的 insight 在于“**及时做优化**”。很明显，linalg 层次，�
 
 MLIR 也有缺点：
 
-* 太过笨重，编译、链接时间长（可能会连接出上百M的文件）
+* 太过笨重，编译、链接时间长（可能会链接出上百M的文件）
   * 可以用 lld 来加快链接速度，但依然很慢 [见TIPS](#113-如何加快编译速度)
 * Dialect 定义极不灵活，定义较复杂 Op 时非常麻烦
 
@@ -385,7 +385,7 @@ int main(int argc, char ** argv) {
 }
 ```
 
-需要连接上所有依赖的文件：
+需要链接上所有依赖的文件：
 
 ```cmake
 target_link_libraries(
@@ -845,7 +845,7 @@ vscode 提供 mlir 扩展，可以为我们写 tablegen 文件提供帮助。在
     }
     ```
 
-    注意，此时需要连接上 `MLIROptLib` 库：在 `tools/toy-opt/CMakeLists.txt` 里
+    注意，此时需要链接上 `MLIROptLib` 库：在 `tools/toy-opt/CMakeLists.txt` 里
 
     ```cmake
     add_mlir_tool(toy-opt toy-opt.cpp)
@@ -1535,7 +1535,7 @@ void getDependentDialects(DialectRegistry &registry) const final {
 registry.insert<toy::ToyDialect, func::FuncDialect, arith::ArithDialect>();
 ```
 
-以及连接上 arith，这是我们的 Transform 依赖 arith，所以 arith 应该加载 transform 的连接列表中。
+以及链接上 arith，这是我们的 Transform 依赖 arith，所以 arith 应该加载 transform 的链接列表中。
 
 ```cmake
 add_mlir_library(
@@ -1714,7 +1714,7 @@ if(failed(applyPartialConversion(getOperation(), target, std::move(patterns))))
   signalPassFailure();
 ```
 
-其他头文件，需要连接的库文件，请看 `ex6` 里的代码。
+其他头文件，需要链接的库文件，请看 `ex6` 里的代码。
 
 ##  10. <a name='自定义-type'></a>自定义 Type
 
@@ -1781,7 +1781,7 @@ MLIR 的 Dialect 文件结构都比较整齐，`mlir/Dialect/XXX/IR/XXX.h`
 
 其他的函数/头文件，建议开个 vscode 到 mlir 源码目录，使用全局搜索来找。
 
-###  11.2. <a name='如何找需要连接的库'></a>如何找需要连接的库
+###  11.2. <a name='如何找需要链接的库'></a>如何找需要链接的库
 
 首先，找到你 include 的头文件，如 `mlir/Dialect/Func/IR/FuncOps.h`。
 
@@ -1791,7 +1791,7 @@ MLIR 的 Dialect 文件结构都比较整齐，`mlir/Dialect/XXX/IR/XXX.h`
 
 ###  11.3. <a name='如何加快编译速度'></a>如何加快编译速度
 
-MLIR 经常会连接出上百 M 甚至上 G 的文件，不同的链接器对性能有很大影响，使用 `lld` (llvm 链接器) 似乎会比 `ld` 快非常多，下面的命令可以让 CMAKE 强制使用 lld（你需要先安装 llvm 编译工具包）。
+MLIR 经常会链接出上百 M 甚至上 G 的文件，不同的链接器对性能有很大影响，使用 `lld` (llvm 链接器) 似乎会比 `ld` 快非常多，下面的命令可以让 CMAKE 强制使用 lld（你需要先安装 llvm 编译工具包）。
 
 ```bash
 cmake .. -DCMAKE_CXX_FLAGS="-fuse-ld=lld"
