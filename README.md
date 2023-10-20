@@ -199,7 +199,7 @@ MLIR 的 insight 在于“**及时做优化**”。很明显，linalg 层次，�
 我们使用 MLIR，主要也是想要复用别人已经写好的代码，一般包括：
 
 * 复用已有 dialect 作为 **输入**，不用自己写前端。
-    * 如 Polygeist 能把 C 翻译成 Affine Dialect，这样我们就不用写 C Parser
+    * 如 [Polygeist](https://github.com/llvm/Polygeist) 能把 C 翻译成 Affine Dialect，这样我们就不用写 C Parser
 * 将已有 dialect **混入**或**作为输出**。
     * 如 arith 等 dialect，可以直接集成起来，不需要自己写。
     * 要生成 binary 的时候，可以直接生成 LLVM Dialect，复用后端 LLVM 编译管线
@@ -262,7 +262,7 @@ mlir-tutorial
 ```bash
 git clone https://github.com/llvm/llvm-project.git
 cd llvm-project
-git checkout 186a4b3b657878ae2aea23caf684b6e103901162 # 本教程使用的版本
+git checkout 26eb4285b56edd8c897642078d91f16ff0fd3472 # 本教程使用的版本，Polygeist Oct 14, 2023依赖版本
 mkdir build && cd build
 cmake -G Ninja ../llvm \
   -DCMAKE_INSTALL_PREFIX=/mlir-tutorial/install \
