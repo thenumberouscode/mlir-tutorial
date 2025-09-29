@@ -44,7 +44,8 @@ bool isDominance(Operation *maybeDominateOp, Operation *op) {
 bool checkloadCanPromote(affine::AffineForOp forOp, affine::AffineLoadOp load,
                          Operation *&storeInfor) {
   Value memref = load.getMemRef();
-  auto mt = memref.getType().cast<MemRefType>();
+  // auto mt = memref.getType().cast<MemRefType>();
+  auto mt = llvm::cast<MemRefType>(memref.getType());
   // 只针对memref为1个元素
   if (mt.getShape().size()) {
     return false;

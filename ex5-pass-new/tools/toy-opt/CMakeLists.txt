@@ -4,6 +4,7 @@ set(LIBS
         ${dialect_libs}
         ${conversion_libs}
         MLIROptLib
+        MLIRRegisterAllPasses
 )
 add_llvm_executable(toy-opt toy-opt.cpp)
 
